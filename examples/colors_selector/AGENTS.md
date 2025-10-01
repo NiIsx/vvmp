@@ -117,10 +117,11 @@ class MainDomain {
 •	Каждый screen может включать в себя несколько view. 
 •	view могут быть вложенными. 
 •	Каждый screen и view наследуются от VvmpBaseStatelessView<ViewModel>
+•	ИСКЛЮЧИТЕЛЬНО, когда необходимо написать код в переопределенном методе dispose(), screen и view могут наследоваться от VvmpBaseStatefulView<ViewModel>
 •	Каждый screen и view имеют свой ViewModel, который наследуется от VvmpBaseViewModel
 3.1) Правила для view:
 •	view может содержать логику, использующую ТОЛЬКО поля и переменные самого view и влияющую ТОЛЬКО на интерфейс этого view.
-•	Обновляемые элементы screen и view оборачиваются в виджет VvmpSimpleStatefulView, где value - изменяемое поле VvmpViewModelValue из vm, а builder - обновляемый view.
+•	Обновляемые элементы screen и view оборачиваются в виджет VvmpSimpleWidget, где value - изменяемое поле VvmpViewModelValue из vm, а builder - обновляемый view.
 •	Метод onUpdated, находящийся в view НИКОГДА не вызывается напрямую! Он будет сам автоматически вызван при изменении значения value.
 3.2) Правила для vm:
 •	vm НЕ СОДЕРЖИТ логику!
@@ -129,7 +130,7 @@ class MainDomain {
 •	делегаты vm связаны с методами procedures в domain.
 •	Поля vm для простых типов данных имеют тип VvmpViewModelValue<SimpleType>
 3.3) Правила для VvmpViewModelValue:
-•	VvmpSimpleStatefulView могут быть вложенными.
+•	VvmpSimpleWidget могут быть вложенными.
 •	view обновляется автоматически при изменении поля value (дополнительно ничего не нужно делать). Поле value изменяется в обработчике события простого виджета или в методе procedures (когда необходимы дополнительные данные). 
 •	Метод onUpdated вызывается напрямую ТОЛЬКО в случае, когда value имеет тип VvmpViewModelValue<T>, где T - коллекция и эта коллекция или ее элемент были изменены!
 3.4) Примеры:
@@ -145,7 +146,7 @@ class MainDomain {
 •	Пример вызова метода procedures из view:
         IconButton(icon: Icon(Icons.save_outlined, color: colors.app,), onPressed: ()=>vm.onItemsSave(vm.items)),
 •	Пример обновления в обработчике события простого виджета:
-        VvmpSimpleStatefulView(
+        VvmpSimpleWidget(
             value: vm.username, 
             builder: () => LabeledTexboxView(
                 text: vm.username.value, 

@@ -1,6 +1,10 @@
-export 'package:vvmp/views/stateless/vvmp_base_stateless_view.dart';
-export 'package:vvmp/views/stateful/vvmp_simple_stateful_view.dart';
-export 'package:vvmp/views/stateful/vvmp_simple_stateful_callbacked_view.dart';
+export 'package:vvmp/views/vvmp_base_stateless_view.dart';
+export 'package:vvmp/views/vvmp_base_stateful_view.dart';
+
+export 'package:vvmp/widgets/vvmp_base_widget.dart';
+export 'package:vvmp/widgets/vvmp_widget_simple.dart';
+export 'package:vvmp/widgets/vvmp_widget_simple_callbacked.dart';
+export 'package:vvmp/widgets/vvmp_widget_two_values.dart';
 
 export 'package:vvmp/view_models/vvmp_base_view_model.dart';
 export 'package:vvmp/view_models/vvmp_view_model_value_read_only.dart';

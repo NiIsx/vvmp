@@ -19,7 +19,7 @@ class SecondScreenViewDesktop extends VvmpBaseStatelessView<SecondScreenViewMode
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                VvmpSimpleStatefulView(
+                VvmpSimpleWidget(
                   value: vm.firstSquareColor,
                   builder: () => GestureDetector(
                     onTap: vm.onFirstSquareTap,
@@ -41,7 +41,7 @@ class SecondScreenViewDesktop extends VvmpBaseStatelessView<SecondScreenViewMode
                     ),
                   ),
                 ),
-                VvmpSimpleStatefulView(
+                VvmpSimpleWidget(
                   value: vm.secondSquareColor,
                   builder: () => GestureDetector(
                     onTap: vm.onSecondSquareTap,
@@ -63,7 +63,7 @@ class SecondScreenViewDesktop extends VvmpBaseStatelessView<SecondScreenViewMode
                     ),
                   ),
                 ),
-                VvmpSimpleStatefulView(
+                VvmpSimpleWidget(
                   value: vm.thirdSquareColor,
                   builder: () => GestureDetector(
                     onTap: vm.onThirdSquareTap,

@@ -14,7 +14,7 @@ IltvException
 VvmpException
 
 IltvSimpleStatefulWidget
-VvmpSimpleStatefulView
+VvmpSimpleWidget
 
  logic.
  vm.

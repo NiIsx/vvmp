@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:vvmp/views/stateful/vvmp_simple_stateful_view.dart';
+import 'package:vvmp/widgets/vvmp_base_widget.dart';
 
 
-class VvmpSimpleStatefulCallbackedView extends VvmpSimpleStatefulView {
+class VvmpWidgetSimpleCallbacked extends VvmpBaseWidget {
   Function? onInitState;
   Function? disposed;
 
-  VvmpSimpleStatefulCallbackedView({super.key, required super.value, required super.builder, Function? initState, Function? disposed});
+  VvmpWidgetSimpleCallbacked({super.key, required super.value, required super.builder, Function? initState, Function? disposed});
 
   @override
-  State<VvmpSimpleStatefulCallbackedView> createState() => VvmpSimpleStatefulCallbackedViewState();
+  State<VvmpWidgetSimpleCallbacked> createState() => VvmpWidgetSimpleCallbackedState();
 }
 
 @protected
-class VvmpSimpleStatefulCallbackedViewState<T extends VvmpSimpleStatefulCallbackedView> extends VvmpSimpleStatefulViewState<T> {
+class VvmpWidgetSimpleCallbackedState<T extends VvmpWidgetSimpleCallbacked> extends VvmpBaseWidgetState<T> {
 
   @override
   void initState(){

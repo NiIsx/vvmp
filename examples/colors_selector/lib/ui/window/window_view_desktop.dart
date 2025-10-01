@@ -50,7 +50,7 @@ class WindowViewDesktop extends VvmpBaseStatelessView<WindowViewModel> {
           ),
           // Основной контент
           Expanded(
-            child: VvmpSimpleStatefulView(
+            child: VvmpSimpleWidget(
               value: vm.currentScreenIndex,
               builder: () {
                 switch (vm.currentScreenIndex.value) {
