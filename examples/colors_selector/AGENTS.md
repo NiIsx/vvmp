@@ -3,9 +3,9 @@
 Перед изменением кода дождись подтверждения пользователя
 Не меняй блоки кода, структуры и методы, помеченный комментарием // LOCKED.
 Придерживайся текущей архитектуры проекта, если прямо не указано иное
+
 Используй vvmp в качестве state management. Никогда не меняй тип архитектуры на другую!
 Путь vvmp: https://github.com/NiIsx/vvmp
-
 Правила использования менеджера состояний vvmp во Flutter проектах:
 1)	Структура директории «lib»:
 lib/
@@ -117,37 +117,41 @@ class MainDomain {
 •	Каждый screen может включать в себя несколько view. 
 •	view могут быть вложенными. 
 •	Каждый screen и view наследуются от VvmpBaseStatelessView<ViewModel>
-•	Каждый screen и view имеют свой ViewModel, который наследуется VvmpBaseViewModel
+•	Каждый screen и view имеют свой ViewModel, который наследуется от VvmpBaseViewModel
+3.1) Правила для view:
 •	view может содержать логику, использующую ТОЛЬКО поля и переменные самого view и влияющую ТОЛЬКО на интерфейс этого view.
+•	Обновляемые элементы screen и view оборачиваются в виджет VvmpSimpleStatefulView, где value - изменяемое поле VvmpViewModelValue из vm, а builder - обновляемый view.
+•	Метод onUpdated, находящийся в view НИКОГДА не вызывается напрямую! Он будет сам автоматически вызван при изменении значения value.
+3.2) Правила для vm:
+•	vm НЕ СОДЕРЖИТ логику!
 •	vm содержит ТОЛЬКО поля и делегаты. которые обрабатываются в procedures и делегаты, которые вызываются в domain для вызова методов procedures.
-•	vm НЕ СОДЕРЖИТ логику.
-•	vm передает команды на работу с логикой из view в procedures через делегаты.
-•	делегаты vm связаны с метожами procedures через domain.
-Пример vm:
--	class SomeViewOrScreenViewModel extends VvmpBaseViewModel {
-  SomeViewOrScreenViewModel ({required this.onItemsSave});
-
-  final items = VvmpViewModelValue<List<SomeViewOrScreen2ViewModelModel>>([]);
-  final VvmpViewModelValue<SomeViewOrScreen2ViewModelModel?> selectedItem = VvmpViewModelValue<SomeViewOrScreen2ViewModelModel?>(null);
-
-  final void Function(VvmpViewModelValue<List<SomeViewOrScreen2ViewModelModel>> items) onItemsSave;
-}
-Пример вызова метода procedures из view:
--	IconButton(icon: Icon(Icons.save_outlined, color: colors.app,), onPressed: ()=>vm.onItemsSave(vm.items)),
+•	vm передает команды на работу с логикой из view в procedures через связанные делегаты.
+•	делегаты vm связаны с методами procedures в domain.
 •	Поля vm для простых типов данных имеют тип VvmpViewModelValue<SimpleType>
-•	Обновляемые элементы screen и view оборачиваются в виджет VvmpSimpleStatefulView, где value - изменяемое поле из vm, а builder - обновляемый view. 
+3.3) Правила для VvmpViewModelValue:
 •	VvmpSimpleStatefulView могут быть вложенными.
 •	view обновляется автоматически при изменении поля value (дополнительно ничего не нужно делать). Поле value изменяется в обработчике события простого виджета или в методе procedures (когда необходимы дополнительные данные). 
-Пример обновления в обработчике события простого виджета:
-        VvmpSimpleStatefulView(
-          value: vm.username, 
-          builder: () => LabeledTexboxView(
-            text: vm.username.value, 
-            labelText: "Username",
-            onChanged: (text) => vm.username.value = text,
-          )
-        ),
-•	В случае, когда нужно обновить view без изменения value вызывается onUpdated метод поля VvmpViewModelValue. Рекомендуется использовать данный способ только при крайней необходимости! 
+•	Метод onUpdated вызывается напрямую ТОЛЬКО в случае, когда value имеет тип VvmpViewModelValue<T>, где T - коллекция и эта коллекция или ее элемент были изменены!
+3.4) Примеры:
+•	Пример реализации vm:
+    class SomeViewOrScreenViewModel extends VvmpBaseViewModel {
+        SomeViewOrScreenViewModel ({required this.onItemsSave});
 
-4)	procedures содержат бизнес логику. UI вызывает методы процедуры через domain
+        final items = VvmpViewModelValue<List<SomeViewOrScreen2ViewModelModel>>([]);
+        final VvmpViewModelValue<SomeViewOrScreen2ViewModelModel?> selectedItem = VvmpViewModelValue<SomeViewOrScreen2ViewModelModel?>(null);
+    
+        final void Function(VvmpViewModelValue<List<SomeViewOrScreen2ViewModelModel>> items) onItemsSave;
+    }
+•	Пример вызова метода procedures из view:
+        IconButton(icon: Icon(Icons.save_outlined, color: colors.app,), onPressed: ()=>vm.onItemsSave(vm.items)),
+•	Пример обновления в обработчике события простого виджета:
+        VvmpSimpleStatefulView(
+            value: vm.username, 
+            builder: () => LabeledTexboxView(
+                text: vm.username.value, 
+                labelText: "Username",
+                onChanged: (text) => vm.username.value = text,
+            )
+        ),
+4)	procedures содержат бизнес логику. UI обращается к методам процедуры через делегат, привязанный процедуре в domain
 5)	Реакция на события ui происходит по схеме: view_event->vm_delegate->domain->procedure->some_actions
