@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:vvmp/values/vvmp_view_model_value.dart' show VvmpViewModelValue;
 import 'package:vvmp/view_models/vvmp_base_view_model.dart';
 
 abstract class VvmpBaseStatefulView<T extends VvmpBaseViewModel> extends StatefulWidget{

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:vvmp/view_models/vvmp_base_view_model.dart';
+import 'package:vvmp/values/vvmp_base_view_model_value.dart';
 
 
 abstract class VvmpBaseWidget extends StatefulWidget {
-  final VvmpBaseViewModel value;
-  final Widget Function() builder;
+  final VvmpBaseViewModelValue value;
   
-  const VvmpBaseWidget({super.key, required this.value, required this.builder});
+  const VvmpBaseWidget({super.key, required this.value});
 
   @override
   State<VvmpBaseWidget> createState();
@@ -23,19 +22,8 @@ abstract class VvmpBaseWidgetState<T extends VvmpBaseWidget> extends State<T> {
   @override
   void dispose() {
     isMounted = false;
+    widget.value.resetCallback();
     vvmpDispose();
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    isMounted = true;
-
-    widget.value.onUpdated = (){
-      if (isMounted == true){
-        setState((){});         
-      }
-    };
-    return widget.builder();
   }
 }

@@ -3,7 +3,9 @@ import 'package:vvmp/widgets/vvmp_base_widget.dart';
 
 
 class VvmpSimpleWidget extends VvmpBaseWidget {
-  const VvmpSimpleWidget({super.key, required super.value, required super.builder, Function? onInitState});
+  final Widget Function() builder;
+
+  const VvmpSimpleWidget({super.key, required super.value, required this.builder, Function? onInitState});
 
   @override
   State<VvmpSimpleWidget> createState() => VvmpSimpleWidgetState();
@@ -16,13 +18,20 @@ class VvmpSimpleWidgetState<T extends VvmpSimpleWidget> extends VvmpBaseWidgetSt
 
   @override
   Widget build(BuildContext context) {
-    isMounted = true;
+    super.isMounted = true;
 
-    widget.value.onUpdated = (){
-      if (isMounted == true){
-        setState((){});         
-      }
-    };
+    // if(widget.value.onUpdated != null){
+    //   throw Exception('The set VVMP view model already has handler for onUpdate!');
+    // }
+
+    if(widget.value.isAllowToSet()){
+      widget.value.onUpdated = (){
+        if (super.isMounted == true){
+          setState((){});         
+        }
+      };      
+    }
+
     return widget.builder();
   }
 }
