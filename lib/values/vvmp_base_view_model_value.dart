@@ -1,22 +1,19 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-abstract class VvmpBaseViewModelValue {
-  @protected
-  void Function()? innerOnUpdated = null;
+abstract class VvmpBaseViewModelValue<T> {
+  @protected T innerValue;
+  T get value => innerValue;
 
-  void Function()? get onUpdated => innerOnUpdated;
-  set onUpdated(void Function()? value){
-    if(innerOnUpdated != null){
-      throw Exception('The onUpdated value is already been set!');
-    }
-    innerOnUpdated = value;
-  }
+  set onUpdated(VvmpOnUpdateItem item);
 
-  void resetCallback(){
-    innerOnUpdated = null;
-  }
+  VvmpBaseViewModelValue(T initValue) : innerValue = initValue;
 
-  bool isAllowToSet(){
-    return onUpdated == null;
-  }
+  void resetCallback(State? state);
+}
+
+class VvmpOnUpdateItem{
+  final State state;
+  final void Function() callback;
+
+  VvmpOnUpdateItem({required this.state, required this.callback});
 }

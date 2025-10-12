@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:vvmp/values/vvmp_view_model_multi_values.dart';
+import 'package:vvmp/values/rw/vvmp_base_view_model_rw_value.dart';
+import 'package:vvmp/values/vvmp_base_view_model_value.dart';
 
 
 class VvmpWidgetMulti extends StatefulWidget {
-  final VvmpViewModelMultiValues value;
+  final VvmpBaseViewModelRwValue value;
   final Widget Function() builder;
   
   const VvmpWidgetMulti({super.key, required this.value, required this.builder});

@@ -11,5 +11,5 @@ class WindowViewModel extends VvmpBaseViewModel {
   final FirstScreenViewModel firstScreenVM;
   final SecondScreenViewModel secondScreenVM;
 
-  final VvmpViewModelValue<int> secectedMenuItemIndex = VvmpViewModelValue<int>(0);
+  final VvmpViewModelSimpleValue<int> secectedMenuItemIndex = VvmpViewModelSimpleValue<int>(0);
 }

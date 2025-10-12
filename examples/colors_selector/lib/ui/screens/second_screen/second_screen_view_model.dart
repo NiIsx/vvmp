@@ -14,7 +14,7 @@ class SecondScreenViewModel extends VvmpBaseViewModel {
 
   final VvmpViewModelMultiValues<int> tapsNum = VvmpViewModelMultiValues<int>(0);
 
-  final firstSquareColor = VvmpViewModelValue<Color>(Colors.purple);
-  final secondSquareColor = VvmpViewModelValue<Color>(Colors.orange);
-  final thirdSquareColor = VvmpViewModelValue<Color>(Colors.teal);
+  final firstSquareColor = VvmpViewModelSimpleValue<Color>(Colors.purple);
+  final secondSquareColor = VvmpViewModelSimpleValue<Color>(Colors.orange);
+  final thirdSquareColor = VvmpViewModelSimpleValue<Color>(Colors.teal);
 }

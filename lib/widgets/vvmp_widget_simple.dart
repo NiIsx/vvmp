@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vvmp/widgets/vvmp_base_widget.dart';
+import 'package:vvmp/values/vvmp_base_view_model_value.dart';
+import 'package:vvmp/widgets/vvmp_base_simple_widget.dart';
 
 
-class VvmpSimpleWidget extends VvmpBaseWidget {
+class VvmpSimpleWidget<V> extends VvmpBaseSimpleWidget<V> {
   final Widget Function() builder;
 
   const VvmpSimpleWidget({super.key, required super.value, required this.builder, Function? onInitState});
@@ -12,7 +13,7 @@ class VvmpSimpleWidget extends VvmpBaseWidget {
 }
 
 @protected
-class VvmpSimpleWidgetState<T extends VvmpSimpleWidget> extends VvmpBaseWidgetState<T> {
+class VvmpSimpleWidgetState<T extends VvmpSimpleWidget> extends VvmpBaseSimpleWidgetState<T> {
 
 
 
@@ -25,11 +26,14 @@ class VvmpSimpleWidgetState<T extends VvmpSimpleWidget> extends VvmpBaseWidgetSt
     // }
 
     if(widget.value.isAllowToSet()){
-      widget.value.onUpdated = (){
-        if (super.isMounted == true){
-          setState((){});         
+      widget.value.onUpdated = VvmpOnUpdateItem(
+        state: this, 
+        callback: (){
+          if (super.isMounted == true){
+            setState((){});         
+          }
         }
-      };      
+      );
     }
 
     return widget.builder();
