@@ -12,6 +12,8 @@ class FirstScreenViewModel extends VvmpBaseViewModel {
   final VoidCallback onSecondSquareTap;
   final VoidCallback onThirdSquareTap;
 
+  final VvmpViewModelMultiValues<int> tapsNum = VvmpViewModelMultiValues<int>(0);
+
   final firstSquareColor = VvmpViewModelValue<Color>(Colors.red);
   final secondSquareColor = VvmpViewModelValue<Color>(Colors.green);
   final thirdSquareColor = VvmpViewModelValue<Color>(Colors.blue);

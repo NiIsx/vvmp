@@ -1,55 +1,38 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vvmp/vvmp.dart';
 
-class VvmpViewModelMultiValues<T> extends VvmpViewModelValue<T>{
-  final List<Function()?> _onUpdateds = [];
 
-  @override
-  void Function()? get onUpdated {
-    throw Exception('onUpdate in multi values is not allowing getter!');
+class VvmpViewModelMultiValues<T>{
+  @protected T innerValue;
+  final List<VvmpOnUpdateItem> _onUpdateds = [];
+
+  T get value => innerValue;
+  set value(T newValue) {
+    innerValue = newValue;
+    for (final item in _onUpdateds){
+      item.callback();      
+    }
   }
-  @override
-  set onUpdated(void Function()? value){
-    if(_onUpdateds.contains(value)){
+
+  set onUpdated(VvmpOnUpdateItem value){
+    final selection = _onUpdateds.where((item)=>item.state == value.state);
+    if(selection.isNotEmpty){
       throw Exception('The onUpdated value is already been set!');      
     }
     _onUpdateds.add(value);
   }
 
-  @override
-  set value(T newValue) {
-    //isInitialized = true;
-    super.innerValue = newValue;
-    for (final item in _onUpdateds){
-      if(item == null){
-        throw Exception('Item of "onUpdateds" callback in null!');
-      }
-      item();      
-    }
+  void resetCallback(State state){
+    _onUpdateds.removeWhere((item)=>item.state == state);
   }
 
   @protected
-  VvmpViewModelMultiValues(super.initValue);
+  VvmpViewModelMultiValues(T initValue) : innerValue = initValue;
+}
 
-  @override
-  bool isAllowToSet(){
-    return true;
-  }
 
-  @override
-  void resetCallback(){
-    _onUpdateds.clear();
-  }
+class VvmpOnUpdateItem{
+  final State state;
+  final void Function() callback;
 
-  // void setWithoutUpdating(T newValue){
-  //   super.innerValue = newValue;
-  // }
-  void setWithSafeUpdating(T newValue){
-    if(super.hasCallback){
-      value = newValue;     
-    }
-    else{
-      super.innerValue = newValue;         
-    }
-  }
+  VvmpOnUpdateItem({required this.state, required this.callback});
 }

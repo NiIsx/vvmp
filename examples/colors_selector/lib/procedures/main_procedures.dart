@@ -1,47 +1,20 @@
+import 'package:test_create_vvmp_by_ai_2/procedures/first/first_procedures.dart';
+import 'package:test_create_vvmp_by_ai_2/procedures/second/second_procedures.dart';
+import 'package:test_create_vvmp_by_ai_2/ui/screens/first_screen/first_screen_view_model.dart';
+import 'package:test_create_vvmp_by_ai_2/ui/screens/second_screen/second_screen_view_model.dart';
 import 'package:vvmp/vvmp.dart';
-import 'package:flutter/material.dart';
-import 'dart:math';
 
-class MainProcedures {
-  final VvmpMessagesCallbacks imc;
+class MainProcedures extends VvmpBaseProcedures {
   
-  MainProcedures({required this.imc});
-
-  final _random = Random();
+  final FirstScreenViewModel firstVM;
+  final SecondScreenViewModel secondVM;
   
-  // Генерирует случайный цвет
-  Color _generateRandomColor() {
-    return Color.fromARGB(
-      255,
-      _random.nextInt(256),
-      _random.nextInt(256),
-      _random.nextInt(256),
-    );
-  }
+  late final first = FirstProcedures(imc: imc, vm: firstVM);
+  late final second = SecondProcedures(imc: imc, vm: secondVM);
 
-  // Изменяет цвет первого квадрата
-  void changeFirstSquareColor(Function(Color) onColorChanged) {
-    final newColor = _generateRandomColor();
-    onColorChanged(newColor);
-    imc.onInfoCallback('Первый квадрат получил новый цвет: ${newColor.toString()}');
-  }
-
-  // Изменяет цвет второго квадрата
-  void changeSecondSquareColor(Function(Color) onColorChanged) {
-    final newColor = _generateRandomColor();
-    onColorChanged(newColor);
-    imc.onInfoCallback('Второй квадрат получил новый цвет: ${newColor.toString()}');
-  }
-
-  // Изменяет цвет третьего квадрата
-  void changeThirdSquareColor(Function(Color) onColorChanged) {
-    final newColor = _generateRandomColor();
-    onColorChanged(newColor);
-    imc.onInfoCallback('Третий квадрат получил новый цвет: ${newColor.toString()}');
-  }
-
-  // Инициализация цветов
-  Future<void> initColors() async {
-    imc.onInfoCallback('Цвета инициализированы');
-  }
+  MainProcedures({
+    required super.imc,
+    required this.firstVM,
+    required this.secondVM,
+  });
 }

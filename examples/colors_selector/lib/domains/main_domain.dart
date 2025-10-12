@@ -7,10 +7,10 @@ import '../ui/screens/second_screen/second_screen_view_desktop.dart';
 import '../ui/window/window_view_model.dart';
 
 class MainDomain {
-  late final FirstScreenViewModel firstScreenVM;
+  late FirstScreenViewModel firstScreenVM;
   late final firstScreen = FirstScreenViewDesktop(vm: firstScreenVM);
 
-  late final SecondScreenViewModel secondScreenVM;
+  late SecondScreenViewModel secondScreenVM;
   late final secondScreen = SecondScreenViewDesktop(vm: secondScreenVM);
 
   late final mainVM = WindowViewModel(
@@ -18,41 +18,34 @@ class MainDomain {
     secondScreenVM: secondScreenVM,
   );
 
-  late final procedures = MainProcedures(imc: VvmpMessagesCallbacks(
-    onInfoCallback: onInfoCallback, 
-    onWarningCallback: onWarningCallback, 
-    onErrorCallback: onErrorCallback,
-  ));
+  late final procedures = MainProcedures(
+    imc: VvmpMessagesCallbacks( 
+      onInfoCallback: onInfoCallback, 
+      onWarningCallback: onWarningCallback, 
+      onErrorCallback: onErrorCallback,
+    ),
+    firstVM: firstScreenVM, 
+    secondVM: secondScreenVM, 
+  );
 
   MainDomain(){
     firstScreenVM = FirstScreenViewModel(
-      onFirstSquareTap: () => procedures.changeSecondSquareColor(
-        (color) => firstScreenVM.secondSquareColor.value = color
-      ),
-      onSecondSquareTap: () => procedures.changeThirdSquareColor(
-        (color) => firstScreenVM.thirdSquareColor.value = color
-      ),
-      onThirdSquareTap: () => procedures.changeFirstSquareColor(
-        (color) => firstScreenVM.firstSquareColor.value = color
-      ),
+      onFirstSquareTap: () => procedures.first.changeSecondSquareColor(),
+      onSecondSquareTap: () => procedures.first.changeThirdSquareColor(),
+      onThirdSquareTap: () => procedures.first.changeFirstSquareColor(),
     );
     
     secondScreenVM = SecondScreenViewModel(
-      onFirstSquareTap: () => procedures.changeSecondSquareColor(
-        (color) => secondScreenVM.secondSquareColor.value = color
-      ),
-      onSecondSquareTap: () => procedures.changeThirdSquareColor(
-        (color) => secondScreenVM.thirdSquareColor.value = color
-      ),
-      onThirdSquareTap: () => procedures.changeFirstSquareColor(
-        (color) => secondScreenVM.firstSquareColor.value = color
-      ),
+      onFirstSquareTap: () => procedures.second.changeSecondSquareColor(),
+      onSecondSquareTap: () => procedures.second.changeThirdSquareColor(),
+      onThirdSquareTap: () => procedures.second.changeFirstSquareColor(),
     );
   }
 
   Future<void> init() async {
     // Инициализация цветов
-    await procedures.initColors();
+    await procedures.first.initColors();
+    await procedures.second.initColors();
   }
 
   void onInfoCallback(String info) {

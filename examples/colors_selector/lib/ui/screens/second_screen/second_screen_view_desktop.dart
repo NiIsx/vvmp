@@ -16,6 +16,12 @@ class SecondScreenViewDesktop extends VvmpBaseStatelessView<SecondScreenViewMode
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            VvmpWidgetMulti(
+              value: vm.tapsNum,
+              builder: () {
+                return Text('Taps num: ${vm.tapsNum.value}');
+              }
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

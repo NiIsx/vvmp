@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vvmp/vvmp.dart';
 import 'domains/main_domain.dart';
 import 'ui/window/window_view_desktop.dart';
 

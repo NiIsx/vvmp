@@ -10,61 +10,98 @@ class WindowViewDesktop extends VvmpBaseStatelessView<WindowViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: [
-          // Боковое меню
-          Container(
-            width: 250,
-            color: Colors.grey[100],
-            child: Column(
-              children: [
-                Container(
-                  height: 60,
-                  color: Colors.blue[600],
-                  child: const Center(
-                    child: Text(
-                      'Меню',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+      body: VvmpSimpleWidget(
+        value: vm.secectedMenuItemIndex,
+        builder: () {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  VvmpWidgetMulti(
+                    value: vm.firstScreenVM.tapsNum,
+                    builder: () {
+                      return Text('Taps num of first: ${vm.firstScreenVM.tapsNum.value}');
+                    }
+                  ),
+                  const SizedBox(width: 16),
+                  VvmpWidgetMulti(
+                    value: vm.secondScreenVM.tapsNum,
+                    builder: () {
+                      return Text('Taps num of second: ${vm.secondScreenVM.tapsNum.value}');
+                    }
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    // Боковое меню
+                    Container(
+                      width: 250,
+                      color: Colors.grey[100],
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 60,
+                            color: Colors.blue[600],
+                            child: const Center(
+                              child: Text(
+                                'Меню',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          _buildMenuItem(
+                            icon: Icons.home,
+                            title: 'Первый экран',
+                            isSelected: vm.secectedMenuItemIndex.value == 0,
+                            onTap: () {
+                              vm.secectedMenuItemIndex.value = 0;
+                            },
+                          ),
+                          _buildMenuItem(
+                            icon: Icons.settings,
+                            title: 'Второй экран',
+                            isSelected: vm.secectedMenuItemIndex.value == 1,
+                            onTap: () {
+                              vm.secectedMenuItemIndex.value = 1;
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                    // Основной контент
+                    Expanded(
+                      child: Builder(
+                        builder: (context) {
+                          switch (vm.secectedMenuItemIndex.value) {
+                            case 0:
+                              return FirstScreenViewDesktop(
+                                vm: vm.firstScreenVM
+                              );
+                            case 1:
+                              return SecondScreenViewDesktop(
+                                vm: vm.secondScreenVM
+                              );
+                            default:
+                              return FirstScreenViewDesktop(
+                                vm: vm.firstScreenVM
+                              );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                _buildMenuItem(
-                  icon: Icons.home,
-                  title: 'Первый экран',
-                  isSelected: vm.currentScreenIndex.value == 0,
-                  onTap: vm.switchToFirstScreen,
-                ),
-                _buildMenuItem(
-                  icon: Icons.settings,
-                  title: 'Второй экран',
-                  isSelected: vm.currentScreenIndex.value == 1,
-                  onTap: vm.switchToSecondScreen,
-                ),
-              ],
-            ),
-          ),
-          // Основной контент
-          Expanded(
-            child: VvmpSimpleWidget(
-              value: vm.currentScreenIndex,
-              builder: () {
-                switch (vm.currentScreenIndex.value) {
-                  case 0:
-                    return FirstScreenViewDesktop(vm: vm.firstScreenVM);
-                  case 1:
-                    return SecondScreenViewDesktop(vm: vm.secondScreenVM);
-                  default:
-                    return FirstScreenViewDesktop(vm: vm.firstScreenVM);
-                }
-              },
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        }
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:vvmp/values/vvmp_view_model_value.dart' show VvmpViewModelValue;
 import 'package:vvmp/view_models/vvmp_base_view_model.dart';
 
 abstract class VvmpBaseStatefulView<T extends VvmpBaseViewModel> extends StatefulWidget{
@@ -13,28 +12,5 @@ abstract class VvmpBaseStatefulView<T extends VvmpBaseViewModel> extends Statefu
 
 @protected
 abstract class VvmpBaseStatefulViewState<T extends VvmpBaseStatefulView> extends State<T> {
-  // bool isMounted = false;
-  
-  // @protected
-  // @mustCallSuper
-  // void vvmpDispose(){}
 
-  // @override
-  // void dispose() {
-  //   isMounted = false;
-  //   vvmpDispose();
-  //   super.dispose();
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   isMounted = true;
-
-  //   // widget.value.onUpdated = (){
-  //   //   if (isMounted == true){
-  //   //     setState((){});         
-  //   //   }
-  //   // };
-  //   // return widget.builder();
-  // }
 }

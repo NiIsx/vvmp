@@ -16,13 +16,21 @@ class FirstScreenViewDesktop extends VvmpBaseStatelessView<FirstScreenViewModel>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            VvmpWidgetMulti(
+              value: vm.tapsNum,
+              builder: () {
+                return Text('Taps num: ${vm.tapsNum.value}');
+              }
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 VvmpSimpleWidget(
                   value: vm.firstSquareColor,
                   builder: () => GestureDetector(
-                    onTap: vm.onFirstSquareTap,
+                    onTap: (){
+                      vm.onFirstSquareTap();
+                    },
                     child: Container(
                       width: 100,
                       height: 100,
@@ -44,7 +52,9 @@ class FirstScreenViewDesktop extends VvmpBaseStatelessView<FirstScreenViewModel>
                 VvmpSimpleWidget(
                   value: vm.secondSquareColor,
                   builder: () => GestureDetector(
-                    onTap: vm.onSecondSquareTap,
+                    onTap: (){
+                      vm.onSecondSquareTap();
+                    },
                     child: Container(
                       width: 100,
                       height: 100,
@@ -66,7 +76,9 @@ class FirstScreenViewDesktop extends VvmpBaseStatelessView<FirstScreenViewModel>
                 VvmpSimpleWidget(
                   value: vm.thirdSquareColor,
                   builder: () => GestureDetector(
-                    onTap: vm.onThirdSquareTap,
+                    onTap: (){
+                      vm.onThirdSquareTap();
+                    },
                     child: Container(
                       width: 100,
                       height: 100,
