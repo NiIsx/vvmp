@@ -72,6 +72,14 @@ class WindowViewDesktop extends VvmpBaseStatelessView<WindowViewModel> {
                               vm.secectedMenuItemIndex.value = 1;
                             },
                           ),
+                          _buildMenuItem(
+                            icon: Icons.settings,
+                            title: 'Третий экран',
+                            isSelected: vm.secectedMenuItemIndex.value == 2,
+                            onTap: () {
+                              vm.secectedMenuItemIndex.value = 2;
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -88,10 +96,10 @@ class WindowViewDesktop extends VvmpBaseStatelessView<WindowViewModel> {
                               return SecondScreenViewDesktop(
                                 vm: vm.secondScreenVM
                               );
+                            case 2:
+                              return const Center(child: Text('Empty screen'),);
                             default:
-                              return FirstScreenViewDesktop(
-                                vm: vm.firstScreenVM
-                              );
+                              throw Exception('Screen widget is not implemented!');
                           }
                         },
                       ),

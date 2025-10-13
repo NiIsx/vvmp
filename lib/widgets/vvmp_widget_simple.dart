@@ -19,22 +19,21 @@ class VvmpSimpleWidgetState<T extends VvmpSimpleWidget> extends VvmpBaseSimpleWi
 
   @override
   Widget build(BuildContext context) {
-    super.isMounted = true;
-
+    
     // if(widget.value.onUpdated != null){
     //   throw Exception('The set VVMP view model already has handler for onUpdate!');
     // }
 
-    if(widget.value.isAllowToSet()){
-      widget.value.onUpdated = VvmpOnUpdateItem(
-        state: this, 
-        callback: (){
-          if (super.isMounted == true){
-            setState((){});         
-          }
-        }
-      );
-    }
+    // if(widget.value.isAllowToSet()){
+    //   widget.value.onUpdated = VvmpOnUpdateItem(
+    //     state: this, 
+    //     callback: (){
+    //       if (super.isMounted == true){
+    //         setState((){});         
+    //       }
+    //     }
+    //   );
+    // }
 
     return widget.builder();
   }

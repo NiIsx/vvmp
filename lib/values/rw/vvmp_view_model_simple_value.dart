@@ -1,33 +1,28 @@
 
 import 'package:flutter/material.dart';
-import 'package:vvmp/values/rw/vvmp_base_view_model_rw_value.dart';
+import 'package:vvmp/values/r/vvmp_view_model_simple_read_only_value.dart';
 import 'package:vvmp/values/vvmp_base_view_model_value.dart';
 
-class VvmpViewModelSimpleValue<T> extends VvmpBaseViewModelRwValue<T> { 
-  @protected
-  VvmpOnUpdateItem? innerOnUpdated;
+class VvmpViewModelSimpleValue<T> extends VvmpViewModelSimpleReadOnlyValue<T> { 
 
-  VvmpOnUpdateItem? get onUpdated => innerOnUpdated!;
   @override
-  set onUpdated(VvmpOnUpdateItem? value){
-    if(value == null){
-      throw Exception('Value is null!');
-    }
+  set onUpdated(VvmpOnUpdateItem value){
+    super.isCallbackInitialized = true;
     if(innerOnUpdated != null){
       throw Exception('The onUpdated value is already been set!');
     }
     innerOnUpdated = value;
   }
 
-  bool get hasCallback => onUpdated != null;
-
-  @override
   set value(T newValue) {
-    super.innerValue = newValue;
-    if(onUpdated == null){
-      throw Exception('"onUpdated" callback in null!');
+    if (newValue == super.innerValue) {
+      return;
     }
-    onUpdated!.callback();
+    super.innerValue = newValue;
+    if(super.isCallbackInitialized == false){
+      throw Exception('"onUpdated" callback in not initialized!');
+    }
+    innerOnUpdated?.callback();
   }
 
   VvmpViewModelSimpleValue(super.initValue);
@@ -38,6 +33,9 @@ class VvmpViewModelSimpleValue<T> extends VvmpBaseViewModelRwValue<T> {
   }
 
   void setWithSafeUpdating(T newValue){
+    if (newValue == super.innerValue) {
+      return;
+    }
     if(hasCallback){
       value = newValue;     
     }
@@ -46,7 +44,6 @@ class VvmpViewModelSimpleValue<T> extends VvmpBaseViewModelRwValue<T> {
     }
   }
   
-  @override
   bool isAllowToSet() {
     return innerOnUpdated == null;
   }

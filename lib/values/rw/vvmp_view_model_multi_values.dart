@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:vvmp/values/rw/vvmp_base_view_model_rw_value.dart';
+import 'package:vvmp/values/rw/vvmp_view_model_simple_value.dart';
 import 'package:vvmp/values/vvmp_base_view_model_value.dart';
 
-class VvmpViewModelMultiValues<T> extends VvmpBaseViewModelRwValue<T> { 
+class VvmpViewModelMultiValues<T> extends VvmpViewModelSimpleValue<T> { 
   @override
   set onUpdated(VvmpOnUpdateItem value){
     final selection = _onUpdateds.where((item)=>item.state == value.state);
@@ -15,9 +15,13 @@ class VvmpViewModelMultiValues<T> extends VvmpBaseViewModelRwValue<T> {
 
   @override
   set value(T newValue) {
+    if (newValue == innerValue) {
+      return;
+    }
     innerValue = newValue;
-    for (final item in _onUpdateds){
-      item.callback();      
+    final callbacks = List<VvmpOnUpdateItem>.from(_onUpdateds);
+    for (final item in callbacks) {
+      item.callback();
     }
   }
 

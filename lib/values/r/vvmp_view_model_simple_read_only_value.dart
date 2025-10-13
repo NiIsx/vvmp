@@ -7,19 +7,16 @@ class VvmpViewModelSimpleReadOnlyValue<T> extends VvmpBaseViewModelRValue<T> {
   @protected
   VvmpOnUpdateItem? innerOnUpdated;
 
-  VvmpOnUpdateItem? get onUpdated => innerOnUpdated;
   @override
-  set onUpdated(VvmpOnUpdateItem? value){
-    if(value == null){
-      throw Exception('Value is null!');
-    }
+  set onUpdated(VvmpOnUpdateItem value){
+    super.isCallbackInitialized = true;
     if(innerOnUpdated != null){
       throw Exception('The onUpdated value is already been set!');
     }
     innerOnUpdated = value;
   }
 
-  bool get hasCallback => onUpdated != null;
+  bool get hasCallback => innerOnUpdated != null;
 
   VvmpViewModelSimpleReadOnlyValue(super.initValue);
 

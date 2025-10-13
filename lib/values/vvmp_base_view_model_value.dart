@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 abstract class VvmpBaseViewModelValue<T> {
+  @protected
+  bool isCallbackInitialized = false;
+
   @protected T innerValue;
   T get value => innerValue;
 
