@@ -15,7 +15,7 @@ class VvmpViewModelSimpleValue<T> extends VvmpViewModelSimpleReadOnlyValue<T> {
   }
 
   set value(T newValue) {
-    if (newValue == super.innerValue) {
+    if ((newValue == super.innerValue) && !(super.innerValue is Iterable)) {
       return;
     }
     super.innerValue = newValue;
